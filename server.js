@@ -2,7 +2,6 @@ const app = require('express')();
 const mongoose = require('mongoose')
 const PORT = 3000;
 
-
 app.get('/', (req, res) => {
     res.send('Hello node api boss');
 })
