@@ -1,0 +1,25 @@
+name: Run Tests on Merge to Main
+
+on:
+  push:
+    branches:
+      - main  # Triggers only when merging or pushing to main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Uses an Ubuntu runner
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3  # Clones the repo
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Change to your Node.js version if needed
+
+      - name: Install Dependencies
+        run: npm install  # Change this to your package manager (e.g., yarn, pnpm)
+
+      - name: Run Tests
+        run: npm test  # Runs your test suite
