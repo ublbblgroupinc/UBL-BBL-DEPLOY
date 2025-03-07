@@ -1,7 +1,7 @@
 name: Test Project
 
 on:
-  pull_requrest:
+  pull_request:
     branches:
       - main
 
