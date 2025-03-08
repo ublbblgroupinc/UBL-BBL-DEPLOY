@@ -1,7 +1,9 @@
-const add = require('./addfunction')
+const add = require('../src/addfunction')
+const requestAdd = require('./wrappers')
 
 test('check add function works properly', () => {
-  expect(add(2, 3)).toBe(5)
+  res = requestAdd(1)
+  expect(res.response).toBe(2)
 })
 
 test('adds -1 + 1 to equal 0', () => {
