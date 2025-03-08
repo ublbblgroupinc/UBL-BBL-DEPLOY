@@ -1,8 +1,8 @@
-const add = require('../src/addfunction')
-const requestAdd = require('./wrappers')
+import { add } from '../src/addfunction'
+import { requestAdd } from './wrappers'
 
 test('check add function works properly', () => {
-  res = requestAdd(1)
+  const res = requestAdd(1)
   expect(res.response).toBe(2)
 })
 

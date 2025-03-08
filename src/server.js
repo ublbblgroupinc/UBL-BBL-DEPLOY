@@ -1,7 +1,9 @@
-const app = require('express')()
-const mongoose = require('mongoose')
+import express from 'express'
+const app = express()
 
-const add = require('./addfunction.js');
+import mongoose from 'mongoose'
+
+import { add } from './addfunction.js'
 
 const PORT = 3000
 
@@ -14,8 +16,8 @@ app.get('/test', (req, res) => {
 })
 
 app.get('/addfunction/:num', (req, res) => {
-  number = parseInt(req.params.num);
-  response = add(number, number)
+  const number = parseInt(req.params.num)
+  const response = add(number, number)
 
   res.json(response)
 })
