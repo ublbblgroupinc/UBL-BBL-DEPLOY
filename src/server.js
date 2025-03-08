@@ -2,7 +2,7 @@ import express from 'express'
 const app = express()
 
 import mongoose from 'mongoose'
-import User from '../models/userModel.mjs'
+import User from '../models/userModel.js'
 const PORT = 3000
 
 import bcrypt from 'bcrypt'
