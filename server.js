@@ -6,6 +6,7 @@ const PORT = 3000
 app.use(express.json())
 const bcrypt = require('bcrypt')
 const User = require('./models/userModel')
+const createUser = require('./user_functions/createUser')
 
 app.get('/', (req, res) => {
   res.send('Hello node api boss')
@@ -13,28 +14,19 @@ app.get('/', (req, res) => {
 
 app.post('/user/signup', async (req, res) => {
   try {
-    // check if username/email already exist
-    const exists = User.findOne(req.body.email)
-    if (exists) {
-      return res.status(400).json({ error: 'email already in use' })
-    }
+    const { username, email, password } = req.body
 
-    // encryption
-    const salt = await bcrypt.genSalt()
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    // checks user inputs and creates user if successful
+    const user = await createUser(username, email, password)
 
-    const hashedUser = {
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword
-    }
-
-    // create user with hashed password and store in database
-    const user = await User.create(hashedUser)
-    res.status(200).json(user)
+    // Respond with the created user (without the password)
+    res.status(201).json({
+      username: user.username,
+      email: user.email
+    })
   } catch (error) {
     console.log(error.message)
-    res.status(500).json(error.message)
+    res.status(400).json({ error: error.message })
   }
 })
 
