@@ -15,5 +15,8 @@ jobs:
         with: 
           node-version: 20
       - run: npm ci
+      - run: npm start &
+      - run: sleep 5
       - run: npm test
+      - run: pkill -f "node"
       
