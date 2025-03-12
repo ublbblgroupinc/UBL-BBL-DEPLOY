@@ -1,7 +1,8 @@
 const request = require('supertest')
-const { app, server } = require('../../app/server')
-const User = require('../../app/models/UsersModel')
+const { app, server } = require('../../main/server')
+const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
+server.close()
 
 describe('POST /user/signup', () => {
   afterAll(async () => {

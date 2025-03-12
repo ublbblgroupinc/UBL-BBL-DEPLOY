@@ -1,0 +1,487 @@
+openapi: 3.0.0
+info:
+  title: Invoice Api
+  description: API for system that users can create and validate invoices
+  version: 1.0.0
+
+paths:
+  /users/signup:
+    post:
+      summary: Registers a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Invalid email/password format or username/email unavailable
+
+  /users/login:
+    post:
+      summary: Logs a user in !!PROBABLY LEAVE OUT TWO FACTOR AUT!!
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                twoFactorCode:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Invalid username/password/2FA code
+
+
+  /users/logout:
+    post:
+      summary: Logs a user out
+      tags:
+        - Users
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Logout successful
+        '401':
+          description: Invalid token
+
+  /users/info:
+    get:
+      summary: Gets user info !!MAYBE REMOVE INVOICE KEY!!
+      tags:
+        - Users
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User info retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  invoices:
+                    type: array
+                    items:
+                      type: object
+        '401':
+          description: Invalid token
+
+  /invoices:
+    post:
+      summary: Creates an invoice !!DECIDE BUYERDEETS AND PRODUCTDEETS SCHEMA!!
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoiceNumber:
+                  type: string
+                date:
+                  type: string
+                buyerDetails:
+                  type: object
+                productDetails:
+                  type: object
+                totalCost:
+                  type: number
+      responses:
+        '200':
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoiceId:
+                    type: integer
+        '401':
+          description: Invalid token
+    get:
+      summary: Gets a list of all user’s invoice details
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of invoices retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    invoiceNumber:
+                      type: string
+                    date:
+                      type: string
+                    buyerDetails:
+                      type: object
+                    productDetails:
+                      type: object
+                    totalCost:
+                      type: number
+        '401':
+          description: Invalid token
+
+  /invoices/{invoiceId}:
+    post:
+      summary: Sends an invoice
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                email:
+                  type: string
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Invoice sent
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid invoiceId
+          
+    get:
+      summary: Retrieves an invoice
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of invoices retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoiceNumber:
+                    type: string
+                  date:
+                    type: string
+                  buyerDetails:
+                    type: object
+                  productDetails:
+                    type: object
+                  totalCost:
+                    type: number
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid invoiceId
+
+    put:
+      summary: Edits an invoice !!MAYBE REMOVE INVOICE NUMBER AND DATE!!
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoiceNumber:
+                  type: string
+                date:
+                  type: string
+                buyerDetails:
+                  type: object
+                productDetails:
+                  type: object
+                totalCost:
+                  type: number
+      responses:
+        '200':
+          description: Invoice updated
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid invoiceId
+
+    delete:
+      summary: Deletes an invoice
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Invoice deleted
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid invoiceId
+
+  /invoices/{invoiceId}/validate:
+    get:
+      summary: Validates an invoice
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of invoices retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validationResults:
+                    type: boolean
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid invoiceId
+
+  /invoices/{invoiceId}/download:
+    post:
+      summary: Downloads an invoice
+      tags:
+        - Invoices
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Invoice downloaded
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid invoiceId
+
+  /contacts:
+    post:
+      summary: Creates a new contact
+      tags:
+        - Contacts
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                businessName:
+                  type: string
+                businessAddress:
+                  type: string
+                businessEmail:
+                  type: string
+                phoneNumber:
+                  type: string
+                abn:
+                  type: string
+      responses:
+        '200':
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contactId:
+                    type: string
+        '401':
+          description: Invalid token
+
+  /contacts/{contactId}:
+    put:
+      summary: Edits a contact
+      tags:
+        - Contacts
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: contactId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                businessName:
+                  type: string
+                businessAddress:
+                  type: string
+                businessEmail:
+                  type: string
+                phoneNumber:
+                  type: string
+                abn:
+                  type: string
+      responses:
+        '200':
+          description: Contact updated
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid contact details
+
+    delete:
+      summary: Deletes a contact
+      tags:
+        - Contacts
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: contactId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Contact deleted
+        '401':
+          description: Invalid token
+        '400':
+          description: Invalid contactId
