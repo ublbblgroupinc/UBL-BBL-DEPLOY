@@ -4,8 +4,8 @@
   "description": "SENG2021 Project",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
+    "dev": "nodemon app/main/server.js",
+    "start": "node app/main/server.js",
     "test": "jest",
     "lint": "standard --env jest"
   },
@@ -21,7 +21,7 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "nodemon": "^3.1.9",
-    "sync-request-curl": "^3.1.0",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "supertest": "^7.0.0"
   }
 }
