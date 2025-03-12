@@ -1,3 +1,4 @@
+/* eslint-env jest */
 const add = require('../src/addfunction')
 const requestAdd = require('./wrappers')
 
