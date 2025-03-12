@@ -1,6 +1,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
+const swaggerUi = require('swagger-ui-express')
+const YAML = require('yamljs')
+const swaggerDocument = YAML.load('./swagger.yaml')
+
 const testRoutes = require('./routes/testRoutes')
 const userRoutes = require('./routes/userRoutes')
 const invoiceRoutes = require('./routes/invoiceRoutes')
@@ -11,6 +15,8 @@ const app = express()
 
 // middleware
 app.use(express.json())
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use('/testing', testRoutes)
 

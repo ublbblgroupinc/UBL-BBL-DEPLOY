@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon app/main/server.js",
     "start": "node app/main/server.js",
-    "test": "jest",
+    "test": "jest --runInBand",
     "lint": "standard --env jest"
   },
   "keywords": [],
@@ -16,7 +16,9 @@
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
     "mongodb": "^6.14.2",
-    "mongoose": "^8.12.1"
+    "mongoose": "^8.12.1",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
