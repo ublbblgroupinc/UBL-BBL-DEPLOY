@@ -40,6 +40,6 @@ const invoiceSchema = mongoose.Schema({
     required: false
   }
 })
-const Invoice = mongoose.model('Invoice', clientSchema)
+const Invoice = mongoose.model('Invoice', invoiceSchema)
 
 module.exports = Invoice
