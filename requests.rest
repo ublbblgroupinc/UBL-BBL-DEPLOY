@@ -2,9 +2,9 @@ POST http://localhost:3000/user/signup
 Content-Type: application/json
 
 {
-  "username": "john12",
-  "email": "johnsmith@gmail.com",
-  "password": "apple123"
+  "username": "bob",
+  "email": "bob@gmail.com",
+  "password": "passwordSecure1*"
 }
 
 ###
