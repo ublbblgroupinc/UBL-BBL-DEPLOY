@@ -1,13 +1,13 @@
-import express from 'express'
+const express = require('express')
 const app = express()
 
-import mongoose from 'mongoose'
-import User from '../models/userModel.js'
+const mongoose = require('mongoose')
+const User = require('../models/userModel.js')
 const PORT = 3000
 
-import bcrypt from 'bcrypt'
+const bcrypt = require('bcrypt')
 
-import { add } from './addfunction.js'
+const add = require('./addfunction.js')
 
 app.use(express.json())
 

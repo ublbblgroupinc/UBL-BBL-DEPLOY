@@ -1,5 +1,5 @@
-import { add } from '../src/addfunction'
-import { requestAdd } from './wrappers'
+const add = require('../src/addfunction')
+const requestAdd = require('./wrappers')
 
 test('check add function works properly', () => {
   const res = requestAdd(1)
