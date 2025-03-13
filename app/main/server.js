@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
 
 const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
@@ -15,6 +16,8 @@ const app = express()
 
 // middleware
 app.use(express.json())
+
+app.use(cookieParser())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 

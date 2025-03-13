@@ -1,6 +1,7 @@
+require('dotenv').config()
 const User = require('../models/UsersModel')
 const bcrypt = require('bcrypt')
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 exports.signup = async (userData) => {
   const { username, email, password } = userData
@@ -31,22 +32,21 @@ exports.signup = async (userData) => {
   return user
 }
 
-// exports.login = async (userData) => {
-//     const { email, password } = userData;
+exports.login = async (userData) => {
+    const { email, password } = userData;
 
-//     // Check if user exists
-//     const user = await User.findOne({ email });
-//     if (!user) throw new Error('User doesn\'t exist');
+    // Check if user exists
+    const user = await User.findOne({ email })
+    if (!user) throw new Error('User doesn\'t exist')
 
-//     // Compare password
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) throw new Error('Incorrect password');
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) throw new Error('Incorrect password')
 
-//     // Generate token
-//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-//     return token;
-// };
+    // Generate token
+    const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+    return token;
+};
 
 /// /////////////// HELPER FUNCTIONS //////////////////////////////////////
 
