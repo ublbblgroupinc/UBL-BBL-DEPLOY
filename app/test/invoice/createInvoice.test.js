@@ -35,7 +35,7 @@ describe.skip('POST /invoices', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     const newInvoice = {
       invoiceNo: 'Test Invoice',
@@ -81,7 +81,7 @@ describe.skip('POST /invoices', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     const newInvoice = {
       invoiceNo: 'Test Invoice',
@@ -90,12 +90,12 @@ describe.skip('POST /invoices', () => {
       productFee: 250,
       productTotal: 275
     }
-    
+
     const response3 = await request(app)
       .post('/invoices')
       .send(newInvoice)
       .expect(400)
-    
+
     expect(response3.body.error).toBe('Missing fields')
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
@@ -126,7 +126,7 @@ describe.skip('POST /invoices', () => {
       .expect(200)
 
     expect(response2.body.message).toBe('Login successful')
-      
+
     const newInvoice = {
       invoiceNo: 'Test Invoice',
       date: '2025-03-13T00:00:00.000Z"',
@@ -139,7 +139,7 @@ describe.skip('POST /invoices', () => {
       .post('/invoices')
       .send(newInvoice)
       .expect(400)
- 
+
     expect(response3.body.error).toBe('Product fees must be numbers')
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
@@ -169,10 +169,10 @@ describe.skip('POST /invoices', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
-      
+    expect(response2.body.message).toBe('Login successful')
+
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
-    
+
     const newInvoice = {
       invoiceNo: 'Test Invoice',
       date: '2025-03-13T00:00:00.000Z',
@@ -185,7 +185,7 @@ describe.skip('POST /invoices', () => {
     const response3 = await request(app)
       .post('/invoices')
       .send(newInvoice)
-      .expect(400)   
+      .expect(400)
 
     expect(response3.body.error).toBe('Token is invalid')
   })

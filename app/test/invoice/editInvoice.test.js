@@ -160,7 +160,7 @@ describe.skip('PUT /invoices/:invoiceId', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     const newInvoice = {
       invoiceNo: 'Test Invoice',
@@ -184,9 +184,9 @@ describe.skip('PUT /invoices/:invoiceId', () => {
       invoiceNo: 'Test Invoice',
       date: '2025-03-13T00:00:00.000Z',
       productDetail: 'DELL Monitor',
-      productFee: "350",
-      productGst: "35",
-      productTotal: "385"
+      productFee: 350,
+      productGst: 35,
+      productTotal: 385
     }
 
     const response4 = await request(app)
@@ -241,7 +241,6 @@ describe.skip('PUT /invoices/:invoiceId', () => {
 
     expect(response3.body.message).toBe('Invoice created')
 
-      
     const editedInvoice = {
       invoiceNo: 'Test Invoice',
       date: '2025-03-13T00:00:00.000Z',
@@ -250,12 +249,12 @@ describe.skip('PUT /invoices/:invoiceId', () => {
       productGst: 'stillnotanumber',
       productTotal: 'pretendnumber'
     }
-      
+
     const response4 = await request(app)
-    .put(`/invoices/${response3.body.invoice._id}`)
-    .send(editedInvoice)
-    .expect(400)
-    
+      .put(`/invoices/${response3.body.invoice._id}`)
+      .send(editedInvoice)
+      .expect(400)
+
     expect(response4.body.error).toBe('Product fees must be numbers')
 
     await Invoice.findByIdAndDelete(response3.body.invoice._id) // Remove test invoice

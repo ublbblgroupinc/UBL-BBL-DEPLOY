@@ -22,7 +22,7 @@ describe('POST /user/login', () => {
       .send(newUser)
       .expect(201)
 
-      expect(response.body.message).toBe('Signup successful')
+    expect(response.body.message).toBe('Signup successful')
 
     const newLogin = {
       email: 'testuser@example.com',
@@ -34,7 +34,7 @@ describe('POST /user/login', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
   })

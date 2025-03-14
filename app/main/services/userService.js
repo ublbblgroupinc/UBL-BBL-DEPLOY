@@ -33,7 +33,7 @@ exports.signup = async (userData) => {
 }
 
 exports.login = async (userData) => {
-  const { email, password } = userData;
+  const { email, password } = userData
 
   // Check if user exists
   const user = await User.findOne({ email })
