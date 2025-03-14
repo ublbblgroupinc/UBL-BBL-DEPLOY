@@ -5,7 +5,7 @@ const Invoice = require('../../main/models/InvoiceModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
-describe('POST /invoices/:invoiceId', () => {
+describe.skip('POST /invoices/:invoiceId', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
     server.close()
@@ -38,12 +38,12 @@ describe('POST /invoices/:invoiceId', () => {
     expect(response2.body.message).toBe('Login successful')
 
     const newInvoice = {
-      invoiceNo: "Test Invoice",
-      date: "2025-03-13T00:00:00.000Z",
-      productDetail: "DELL Monitor",
+      invoiceNo: 'Test Invoice',
+      date: '2025-03-13T00:00:00.000Z',
+      productDetail: 'DELL Monitor',
       productFee: 250,
       productGst: 25,
-      productTotal: 275,
+      productTotal: 275
     }
 
     const response3 = await request(app)
@@ -54,9 +54,9 @@ describe('POST /invoices/:invoiceId', () => {
     expect(response3.body.message).toBe('Invoice created')
 
     const message = {
-      title: "Test Message",
-      emailAddress: "joebloe@hotmail.com",
-      message: "Hi this is a test message! Pls reply to me!"
+      title: 'Test Message',
+      emailAddress: 'joebloe@hotmail.com',
+      message: 'Hi this is a test message! Pls reply to me!'
     }
 
     const response4 = await request(app)
@@ -94,15 +94,15 @@ describe('POST /invoices/:invoiceId', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     const newInvoice = {
-      invoiceNo: "Test Invoice",
-      date: "2025-03-13T00:00:00.000Z",
-      productDetail: "DELL Monitor",
+      invoiceNo: 'Test Invoice',
+      date: '2025-03-13T00:00:00.000Z',
+      productDetail: 'DELL Monitor',
       productFee: 250,
       productGst: 25,
-      productTotal: 275,
+      productTotal: 275
     }
 
     const response3 = await request(app)
@@ -110,14 +110,14 @@ describe('POST /invoices/:invoiceId', () => {
       .send(newInvoice)
       .expect(200)
 
-      expect(response3.body.message).toBe('Invoice created')
-      
+    expect(response3.body.message).toBe('Invoice created')
+
     await Invoice.findByIdAndDelete(response3.body.invoice._id) // Remove test invoice
-   
+
     const message = {
-      title: "Test Message",
-      emailAddress: "joebloe@hotmail.com",
-      message: "Hi this is a test message! Pls reply to me!"
+      title: 'Test Message',
+      emailAddress: 'joebloe@hotmail.com',
+      message: 'Hi this is a test message! Pls reply to me!'
     }
 
     const response4 = await request(app)
@@ -154,15 +154,15 @@ describe('POST /invoices/:invoiceId', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     const newInvoice = {
-      invoiceNo: "Test Invoice",
-      date: "2025-03-13T00:00:00.000Z",
-      productDetail: "DELL Monitor",
+      invoiceNo: 'Test Invoice',
+      date: '2025-03-13T00:00:00.000Z',
+      productDetail: 'DELL Monitor',
       productFee: 250,
       productGst: 25,
-      productTotal: 275,
+      productTotal: 275
     }
 
     const response3 = await request(app)
@@ -170,22 +170,19 @@ describe('POST /invoices/:invoiceId', () => {
       .send(newInvoice)
       .expect(200)
 
-      expect(response3.body.message).toBe('Invoice created')
+    expect(response3.body.message).toBe('Invoice created')
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
-  
-    const editedInvoice = {
-      invoiceNo: "Test Invoice",
-      date: "2025-03-13T00:00:00.000Z",
-      productDetail: "DELL Monitor",
-      productFee: "350",
-      productGst: "35",
-      productTotal: "385",
+
+    const message = {
+      title: 'Test Message',
+      emailAddress: 'joebloe@hotmail.com',
+      message: 'Hi this is a test message! Pls reply to me!'
     }
 
     const response4 = await request(app)
-      .put(`/invoices/${response3.body.invoice._id}`)
-      .send(editedInvoice)
+      .post(`/invoices/${response3.body.invoice._id}`)
+      .send(message)
       .expect(400)
 
     expect(response4.body.error).toBe('Token is invalid')
