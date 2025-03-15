@@ -46,10 +46,9 @@ exports.login = async (userData) => {
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) throw new Error('Incorrect password')
 
-<<<<<<< HEAD
-    // Generate token
-    const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
-    return token;
+  // Generate token
+  const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+  return token;
 }
 
 exports.getUserInfoVerify = async (email) => {
@@ -109,11 +108,6 @@ exports.putInfo = async (userData) => {
 
   const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
   return token;
-=======
-  // Generate token
-  const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
-  return token
->>>>>>> main
 }
 
 /// /////////////// HELPER FUNCTIONS //////////////////////////////////////
