@@ -5,6 +5,13 @@ const Invoice = require('../../main/models/InvoiceModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
+describe('DELETE /invoices/:invoiceId', () => {
+  it('dummy test - delete after implementation is added', async () => {
+    await mongoose.connection.close() // Ensure DB connection is closed
+    server.close()
+  })
+})
+
 describe.skip('DELETE /invoices/:invoiceId', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
