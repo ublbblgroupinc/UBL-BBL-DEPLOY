@@ -6,6 +6,7 @@ const tokenController = require('../controllers/tokenAuth')
 // Define routes
 router.post('/signup', userController.signup)
 router.post('/login', userController.login)
-router.get('/info', tokenController.tokenAuth, userController.info)
+router.get('/info', tokenController.tokenAuth, userController.getInfo)
+router.put('/info', tokenController.tokenAuth, userController.putInfo)
 
 module.exports = router

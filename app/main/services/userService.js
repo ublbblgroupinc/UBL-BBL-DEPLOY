@@ -16,6 +16,9 @@ exports.signup = async (userData) => {
   const existingUser = await User.findOne({ email })
   if (existingUser) throw new Error('User already exists')
 
+  const existingUsername = await User.findOne({ username })
+  if (existingUsername) throw new Error('Username already exists')
+
   // check valid password
   if (!isValidPassword(password)) {
     throw new Error(
@@ -44,6 +47,65 @@ exports.login = async (userData) => {
   if (!isMatch) throw new Error('Incorrect password')
 
   // Generate token
+  const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+  return token
+}
+
+exports.getUserInfoVerify = async (email) => {
+  const user = await User.findOne({ email })
+  if (!user) throw new Error("User doesn't exist")
+
+  return user
+}
+
+exports.putInfo = async (userData) => {
+  let { email, newusername, newemail, newpassword } = userData
+
+  // checks if user exists
+  let user = await User.findOne({ email })
+  if (!user) throw new Error('User doesn\'t exist')
+
+  if (newusername != null) {
+    // error checking
+    if (user.username === newusername) throw new Error('New username should not be current username')
+
+    const username = newusername
+    const existingUsername = await User.findOne({ username })
+    if (existingUsername) throw new Error('Username already exists')
+    // updating username
+    await User.updateOne({ email: user.email }, { $set: { username: newusername } })
+  }
+
+  if (newpassword != null) {
+    // error checking
+    const isMatch = await bcrypt.compare(newpassword, user.password)
+    if (isMatch) throw new Error('New password should not be current password')
+
+    if (!isValidPassword(newpassword)) {
+      throw new Error(
+        'Password must be at least 8 characters long, include 1 uppercase, ' +
+            '1 number, and 1 special character.'
+      )
+    }
+    // updating password
+    const hashedPassword = await bcrypt.hash(newpassword, 10)
+    await User.updateOne({ email: user.email }, { $set: { password: hashedPassword } })
+  }
+
+  if (newemail != null) {
+    // error checking
+    if (user.email === newemail) throw new Error('New email should not be current email')
+
+    email = newemail
+    const existingEmail = await User.findOne({ email })
+    if (existingEmail) throw new Error('Email is already being used')
+
+    if (!isValidEmail(newemail)) throw new Error('Invalid email')
+    // updating uer
+    await User.updateOne({ email: user.email }, { $set: { email: newemail } })
+    user = await User.findOne({ email }) // changes user so token can update
+  }
+
   const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
   return token
 }
