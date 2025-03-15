@@ -21,9 +21,19 @@ exports.login = async (req, res) => {
   }
 }
 
-exports.info = async (req, res) => {
+exports.getInfo = async(req, res) => {
   try {
-    const user = req.user
+    const email = req.user.email
+
+    if (!email) {
+      return res.status(400).json({ error: "Invalid token, email missing" })
+    }
+
+    const user = await userService.getUserInfoVerify(email)
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
 
     res.status(200).json({
       username: user.username,
@@ -32,6 +42,33 @@ exports.info = async (req, res) => {
       invoices: user.invoices || null
     })
   } catch (error) {
-    res.status(500).json(error.message)
+    res.status(500).json({ error: error.message })
   }
+}
+
+exports.putInfo = async (req, res) => {
+  try {
+    const email = req.user.email
+
+    if (!email) {
+      return res.status(400).json({ error: "Invalid token, email missing" })
+    }
+
+    const user = await userService.getUserInfoVerify(email) //checking user exists
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    const userData = { email, ...req.body }
+    const token = await userService.putInfo(userData)
+    res.cookie("token", token, {
+      httpOnly: true
+    })
+    res.status(200).json({ message: 'Successfully updated user info' })
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+  //
 }
