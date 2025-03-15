@@ -67,7 +67,7 @@ exports.putInfo = async (userData) => {
 
   if (newusername != null) {
     // error checking
-    if (user.username == newusername) throw new Error('New username should not be current username')
+    if (user.username === newusername) throw new Error('New username should not be current username')
 
     const username = newusername
     const existingUsername = await User.findOne({ username })
@@ -94,7 +94,7 @@ exports.putInfo = async (userData) => {
 
   if (newemail != null) {
     // error checking
-    if (user.email == newemail) throw new Error('New email should not be current email')
+    if (user.email === newemail) throw new Error('New email should not be current email')
 
     email = newemail
     const existingEmail = await User.findOne({ email })
