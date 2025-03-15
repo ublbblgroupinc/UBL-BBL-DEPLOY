@@ -36,7 +36,7 @@ describe('POST /user/info', () => {
 
     expect(response2.body.message).toBe('Login successful')
 
-    await request(app)
+    const response3 = await request(app)
       .get('/user/info')
       .set('Cookie', response2.headers['set-cookie'])
       .expect(200)
