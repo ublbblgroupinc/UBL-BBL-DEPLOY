@@ -4,7 +4,7 @@ const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
-describe('POST /user/login', () => {
+describe('POST /user/info', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
     server.close()
@@ -38,7 +38,15 @@ describe('POST /user/login', () => {
 
     await request(app)
       .get('/user/info')
+      .set('Cookie', response2.headers['set-cookie'])
       .expect(200)
+
+    expect(response3.body).toEqual({
+      username: 'testuser',
+      email: 'testuser@example.com',
+      businesses: [],
+      invoices: []
+    })
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
   })
