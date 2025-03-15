@@ -12,7 +12,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const token = await userService.login(req.body)
-    res.cookie("token", token, {
+    res.cookie('token', token, {
       httpOnly: true
     })
     res.status(200).json({ message: 'Login successful' })

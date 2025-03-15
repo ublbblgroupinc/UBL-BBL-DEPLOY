@@ -4,7 +4,7 @@ const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
-describe('POST /user/login', () => {
+describe('POST /user/info', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
     server.close()
@@ -22,7 +22,7 @@ describe('POST /user/login', () => {
       .send(newUser)
       .expect(201)
 
-      expect(response.body.message).toBe('Signup successful')
+    expect(response.body.message).toBe('Signup successful')
 
     const newLogin = {
       email: 'testuser@example.com',
@@ -34,11 +34,19 @@ describe('POST /user/login', () => {
       .send(newLogin)
       .expect(200)
 
-      expect(response2.body.message).toBe('Login successful')
+    expect(response2.body.message).toBe('Login successful')
 
     const response3 = await request(app)
       .get('/user/info')
+      .set('Cookie', response2.headers['set-cookie'])
       .expect(200)
+
+    expect(response3.body).toEqual({
+      username: 'testuser',
+      email: 'testuser@example.com',
+      businesses: [],
+      invoices: []
+    })
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
   })
