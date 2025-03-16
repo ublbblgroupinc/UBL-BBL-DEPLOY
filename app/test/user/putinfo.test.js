@@ -155,7 +155,7 @@ describe('PUT /user/info', () => {
       .send({ newusername: 'anotheruser' })
       .expect(401)
 
-    expect(response13.body.error).toBe('No token provided')
+    expect(response13.body.message).toBe('No token provided')
 
     await User.findByIdAndDelete(userId)
   })
