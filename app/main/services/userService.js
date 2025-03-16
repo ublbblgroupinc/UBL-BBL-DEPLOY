@@ -109,7 +109,7 @@ exports.putInfo = async (userData) => {
     user = await User.findOne({ email }) // changes user so token can update
   }
 
-  const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+  const token = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
   return token
 }
 
