@@ -6,7 +6,12 @@ server.close()
 describe('POST /user/signout', () => {
   let token
 
-  beforeAll(async () => {
+  afterAll(async () => {
+    await mongoose.connection.close()
+    server.close()
+  })
+  
+  it('should create a new user and login successfully', async () => {
     const newUser = {
       username: 'testuser',
       email: 'testuser@example.com',
@@ -24,11 +29,6 @@ describe('POST /user/signout', () => {
       .expect(200)
 
     token = loginResponse.body.token
-  })
-
-  afterAll(async () => {
-    await mongoose.connection.close()
-    server.close()
   })
 
   it('should successfully log out the user', async () => {

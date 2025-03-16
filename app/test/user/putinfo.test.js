@@ -8,7 +8,13 @@ describe('PUT /user/info', () => {
   let token
   let userId
 
-  beforeAll(async () => {
+  afterAll(async () => {
+    await User.findByIdAndDelete(userId)
+    await mongoose.connection.close()
+    server.close()
+  })
+
+  it('should create a new user and login successfully', async () => {
     const newUser = {
       username: 'testuser',
       email: 'testuser@example.com',
@@ -30,12 +36,6 @@ describe('PUT /user/info', () => {
 
     expect(loginResponse.body.message).toBe('Login successful')
     token = loginResponse.body.token
-  })
-
-  afterAll(async () => {
-    await User.findByIdAndDelete(userId)
-    await mongoose.connection.close()
-    server.close()
   })
 
   it('should update the user email successfully', async () => {
