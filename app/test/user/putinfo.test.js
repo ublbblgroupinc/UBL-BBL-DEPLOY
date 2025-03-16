@@ -69,7 +69,7 @@ describe('PUT /user/info', () => {
 
     const response3 = await request(app)
       .put('/user/info')
-      .set('Cookie', response2.headers['set-cookie'])
+      .set('Cookie', response1.headers['set-cookie'])
       .send({ newusername: 'newtestuser' })
       .expect(200)
 
@@ -85,7 +85,7 @@ describe('PUT /user/info', () => {
 
     const response5 = await request(app)
       .put('/user/info')
-      .set('Cookie', response4.headers['set-cookie'])
+      .set('Cookie', response3.headers['set-cookie'])
       .send({ newusername: 'newtestuser' })
       .expect(400)
 
@@ -93,7 +93,7 @@ describe('PUT /user/info', () => {
 
     const response6 = await request(app)
       .put('/user/info')
-      .set('Cookie', response5.headers['set-cookie'])
+      .set('Cookie', response3.headers['set-cookie'])
       .send({ newpassword: 'NewPassword123*' })
       .expect(200)
 
@@ -109,7 +109,7 @@ describe('PUT /user/info', () => {
 
     const response8 = await request(app)
       .put('/user/info')
-      .set('Cookie', response7.headers['set-cookie'])
+      .set('Cookie', response6.headers['set-cookie'])
       .send({ newpassword: 'short' })
       .expect(400)
 
@@ -118,7 +118,7 @@ describe('PUT /user/info', () => {
 
     const response9 = await request(app)
       .put('/user/info')
-      .set('Cookie', response8.headers['set-cookie'])
+      .set('Cookie', response6.headers['set-cookie'])
       .send({ newemail: 'multiupdate@example.com', newusername: 'multiuser' })
       .expect(200)
 
