@@ -55,7 +55,7 @@ exports.getInfo = async (req, res) => {
 
 exports.putInfo = async (req, res) => {
   try {
-    const user = await User.getUserFromToken(req, res)
+    const user = await getUserFromToken(req, res)
 
     const userData = { email: user.email, ...req.body }
     const token = await userService.putInfo(userData)

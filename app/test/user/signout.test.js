@@ -34,10 +34,12 @@ describe('POST /user/signout', () => {
 
     const response2 = await request(app)
       .post('/user/signout')
+      .set('Cookie', 'random')
+
       .expect(401)
 
     expect(response2.body.message).toBe('Unauthorised')
-    
+
     const response = await request(app)
       .post('/user/signout')
       .set('Cookie', loginResponse.headers['set-cookie'])
