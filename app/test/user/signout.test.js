@@ -31,9 +31,7 @@ describe('POST /user/signout', () => {
       .expect(200)
 
       expect(loginResponse.body.message).toBe('Login successful')
-  })
 
-  it('should successfully log out the user', async () => {
     const response = await request(app)
       .post('/user/signout')
       .set('Cookie', loginResponse.headers['set-cookie'])
@@ -41,9 +39,7 @@ describe('POST /user/signout', () => {
 
     expect(response.body.message).toBe('Logged out')
     expect(response.headers['set-cookie'][0]).toMatch(/token=none/)
-  })
 
-  it('should return 401 if no token is provided', async () => {
     const response2 = await request(app)
       .post('/user/signout')
       .expect(401)
