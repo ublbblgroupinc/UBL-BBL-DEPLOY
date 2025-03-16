@@ -4,6 +4,8 @@ const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose')
 server.close()
 
+jest.setTimeout(30000)
+
 describe('PUT /user/info', () => {
   let userId
   let userId2
@@ -16,8 +18,6 @@ describe('PUT /user/info', () => {
   })
 
   it('should create a new user and login successfully', async () => {
-    jest.setTimeout(30000)
-
     const newUser = {
       username: 'testuser',
       email: 'testuser@example.com',
