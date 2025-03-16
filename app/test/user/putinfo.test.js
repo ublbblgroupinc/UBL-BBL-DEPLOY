@@ -5,7 +5,6 @@ const mongoose = require('mongoose')
 server.close()
 
 describe('PUT /user/info', () => {
-  let token
   let userId
 
   afterAll(async () => {
@@ -35,13 +34,12 @@ describe('PUT /user/info', () => {
       .expect(200)
 
     expect(loginResponse.body.message).toBe('Login successful')
-    token = loginResponse.body.token
   })
 
   it('should update the user email successfully', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newemail: 'changedemail@example.com' })
       .expect(200)
 
@@ -51,7 +49,7 @@ describe('PUT /user/info', () => {
   it('should not update to the same email', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newemail: 'changedemail@example.com' })
       .expect(400)
 
@@ -61,7 +59,7 @@ describe('PUT /user/info', () => {
   it('should update the username successfully', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newusername: 'newtestuser' })
       .expect(200)
 
@@ -73,7 +71,7 @@ describe('PUT /user/info', () => {
 
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newusername: 'existinguser' })
       .expect(400)
 
@@ -83,7 +81,7 @@ describe('PUT /user/info', () => {
   it('should not update to the same username', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newusername: 'newtestuser' })
       .expect(400)
 
@@ -93,7 +91,7 @@ describe('PUT /user/info', () => {
   it('should update the password successfully', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newpassword: 'NewPassword123*' })
       .expect(200)
 
@@ -103,7 +101,7 @@ describe('PUT /user/info', () => {
   it('should not update to the same password', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newpassword: 'NewPassword123*' })
       .expect(400)
 
@@ -113,7 +111,7 @@ describe('PUT /user/info', () => {
   it('should not update password if it does not meet complexity requirements', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newpassword: 'short' })
       .expect(400)
 
@@ -124,7 +122,7 @@ describe('PUT /user/info', () => {
   it('should update both email and username successfully', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newemail: 'multiupdate@example.com', newusername: 'multiuser' })
       .expect(200)
 
@@ -134,7 +132,7 @@ describe('PUT /user/info', () => {
   it('should update both email and password successfully', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newemail: 'emailpass@example.com', newpassword: 'NewSecurePass123*' })
       .expect(200)
 
@@ -144,7 +142,7 @@ describe('PUT /user/info', () => {
   it('should update both username and password successfully', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newusername: 'userpass', newpassword: 'AnotherPass123*' })
       .expect(200)
 
@@ -154,7 +152,7 @@ describe('PUT /user/info', () => {
   it('should not update if both email and username are the same as current', async () => {
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newemail: 'emailpass@example.com', newusername: 'userpass' })
       .expect(400)
 
@@ -175,7 +173,7 @@ describe('PUT /user/info', () => {
 
     const response = await request(app)
       .put('/user/info')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .send({ newusername: 'ghostuser' })
       .expect(404)
 
