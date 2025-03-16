@@ -1,4 +1,5 @@
 const userService = require('../services/userService')
+const User = require('../models/UsersModel')
 
 exports.signup = async (req, res) => {
   try {
@@ -23,17 +24,10 @@ exports.login = async (req, res) => {
 
 exports.getInfo = async (req, res) => {
   try {
-    const email = req.user.email
+    const userId = req.user.userId
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' })
 
-    if (!email) {
-      return res.status(400).json({ error: 'Invalid token, email missing' })
-    }
-
-    const user = await userService.getUserInfoVerify(email)
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
+    const user = await User.findById(userId)
 
     res.status(200).json({
       username: user.username,
@@ -48,20 +42,12 @@ exports.getInfo = async (req, res) => {
 
 exports.putInfo = async (req, res) => {
   try {
-    const email = req.user.email
+    const userId = req.user.userId
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' })
 
-    if (!email) {
-      return res.status(400).json({ error: 'Invalid token, email missing' })
-    }
+    const user = await User.findById(userId)
 
-    const user = await userService.getUserInfoVerify(email)
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
-
-    const userData = { email, ...req.body }
-    const token = await userService.putInfo(userData)
+    const token = await userService.putInfo(user) // not sure if user is correct here
     res.cookie('token', token, {
       httpOnly: true
     })
