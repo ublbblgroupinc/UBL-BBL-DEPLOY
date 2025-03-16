@@ -6,6 +6,7 @@ server.close()
 
 describe('PUT /user/info', () => {
   let userId
+  let userId2
 
   afterAll(async () => {
     await User.findByIdAndDelete(userId)
@@ -37,7 +38,7 @@ describe('PUT /user/info', () => {
 
     const signupResponse2 = await request(app)
       .post('/user/signup')
-      .send(newUser)
+      .send(newUser2)
       .expect(201)
 
     expect(signupResponse2.body.message).toBe('Signup successful')
