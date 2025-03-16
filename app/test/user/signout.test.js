@@ -38,7 +38,7 @@ describe('POST /user/signout', () => {
 
       .expect(401)
 
-    expect(response2.body.message).toBe('Unauthorised')
+    expect(response2.body.message).toBe('No token provided')
 
     const response = await request(app)
       .post('/user/signout')
