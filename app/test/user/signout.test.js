@@ -30,7 +30,7 @@ describe('POST /user/signout', () => {
       .send({ email: newUser.email, password: newUser.password })
       .expect(200)
 
-      expect(loginResponse.body.message).toBe('Login successful')
+    expect(loginResponse.body.message).toBe('Login successful')
 
     const response = await request(app)
       .post('/user/signout')
