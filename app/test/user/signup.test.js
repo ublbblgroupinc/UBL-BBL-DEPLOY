@@ -4,8 +4,6 @@ const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
-jest.setTimeout(30000)
-
 describe('POST /user/signup', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
@@ -30,6 +28,8 @@ describe('POST /user/signup', () => {
   })
 
   it('should return an error when not all fields are filled out i.e. no username provided', async () => {
+    jest.setTimeout(30000)
+
     const newUser = {
       email: 'testuser@example.com',
       password: 'Password123*'
