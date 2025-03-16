@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const invoiceSchema = mongoose.Schema({
+  userId: {
+    type: String,
+    required: true
+  },
   invoiceNo: {
     type: String,
     required: true
@@ -28,12 +32,12 @@ const invoiceSchema = mongoose.Schema({
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Client',
-    required: true
+    required: false
   },
   business: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Business',
-    required: true
+    required: false
   },
   extraInfo: {
     type: String,
