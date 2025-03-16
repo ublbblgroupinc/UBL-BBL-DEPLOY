@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 server.close()
 
 describe('POST /user/signout', () => {
-  let token;
+  let token
 
   beforeAll(async () => {
     const newUser = {

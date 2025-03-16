@@ -5,8 +5,8 @@ const mongoose = require('mongoose')
 server.close()
 
 describe('PUT /user/info', () => {
-  let token;
-  let userId;
+  let token
+  let userId
 
   beforeAll(async () => {
     const newUser = {

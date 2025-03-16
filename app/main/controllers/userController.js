@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
   }
 }
 
-//helper function to get user info from token
+// helper function to get user info from token
 const getUserFromToken = async (req, res) => {
   try {
     const userId = req.user.userId
@@ -54,7 +54,7 @@ exports.getInfo = async (req, res) => {
 }
 
 exports.putInfo = async (req, res) => {
-  try {    
+  try {
     const user = await User.getUserFromToken(req, res)
 
     const userData = { email: user.email, ...req.body }
@@ -77,7 +77,7 @@ exports.postSignOut = async (req, res) => {
       expires: new Date(Date.now() + 10),
       httpOnly: true
     })
-    res.status(200).json({ message: 'Logged out'})
+    res.status(200).json({ message: 'Logged out' })
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
