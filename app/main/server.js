@@ -39,7 +39,7 @@ mongoose.connect('mongodb+srv://admin:12345abcde@invoicedatabase.owzuo.mongodb.n
   })
 
 const server = app.listen(PORT, () => {
- console.log(`Server is running on port ${PORT}`)
+  console.log(`Server is running on port ${PORT}`)
 })
 
 module.exports = { app, server } // for testing
