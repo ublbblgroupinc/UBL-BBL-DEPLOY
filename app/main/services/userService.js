@@ -65,6 +65,8 @@ exports.putInfo = async (userData) => {
   let user = await User.findOne({ email })
   if (!user) throw new Error('User doesn\'t exist')
 
+  if (newusername == null && newemail == null && newpassword == null) throw new Error('No user info changed')
+
   if (newusername != null) {
     // error checking
     if (user.username === newusername) throw new Error('New username should not be current username')
