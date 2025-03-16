@@ -2,7 +2,7 @@
   "name": "ubl-bbl",
   "version": "1.0.0",
   "description": "SENG2021 Project",
-  "main": "index.js",
+  "main": "app/api/server.js",
   "scripts": {
     "dev": "nodemon app/api/server.js",
     "start": "node app/api/server.js",
