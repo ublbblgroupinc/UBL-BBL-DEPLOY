@@ -1,10 +1,12 @@
 const request = require('supertest')
 const { app, server } = require('../../main/server')
+const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose')
 server.close()
 
 describe('POST /user/signout', () => {
   let token
+  let userId
 
   afterAll(async () => {
     await User.findByIdAndDelete(userId)
