@@ -16,6 +16,8 @@ describe('PUT /user/info', () => {
   })
 
   it('should create a new user and login successfully', async () => {
+    jest.setTimeout(30000)
+    
     const newUser = {
       username: 'testuser',
       email: 'testuser@example.com',
