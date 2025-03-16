@@ -44,8 +44,7 @@ describe('GET /user/info', () => {
     expect(response3.body).toEqual({
       username: 'testuser',
       email: 'testuser@example.com',
-      businesses: [],
-      invoices: []
+      businesses: []
     })
 
     await User.findByIdAndDelete(response.body.user._id) // Remove test user
