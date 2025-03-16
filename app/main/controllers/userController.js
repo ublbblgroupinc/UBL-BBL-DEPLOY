@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
 const getUserFromToken = async (req, res) => {
   try {
     const userId = req.user.userId
-    if (!userId) return res.status(401).json({ message: 'Unauthorized' })
+    if (!userId) return res.status(401).json({ message: 'Unauthorised' })
 
     const user = await User.findById(userId)
 
@@ -70,8 +70,7 @@ exports.putInfo = async (req, res) => {
 
 exports.postSignOut = async (req, res) => {
   try {
-    const userId = req.user.userId
-    if (!userId) return res.status(401).json({ message: 'Unauthorised' })
+    await getUserFromToken(req, res)
 
     res.cookie('token', 'none', {
       expires: new Date(Date.now() + 10),

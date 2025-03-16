@@ -47,6 +47,5 @@ describe('POST /user/signout', () => {
 
     expect(response.body.message).toBe('Logged out')
     expect(response.headers['set-cookie'][0]).toMatch(/token=none/)
-
   })
 })
