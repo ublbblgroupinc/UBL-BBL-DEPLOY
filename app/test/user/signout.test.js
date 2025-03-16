@@ -7,6 +7,7 @@ describe('POST /user/signout', () => {
   let token
 
   afterAll(async () => {
+    await User.findByIdAndDelete(userId)
     await mongoose.connection.close()
     server.close()
   })
