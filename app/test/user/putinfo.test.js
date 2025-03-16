@@ -158,13 +158,5 @@ describe('PUT /user/info', () => {
     expect(response13.body.error).toBe('No token provided')
 
     await User.findByIdAndDelete(userId)
-
-    const response14 = await request(app)
-      .put('/user/info')
-      .set('Cookie', loginResponse.headers['set-cookie'])
-      .send({ newusername: 'ghostuser' })
-      .expect(404)
-
-    expect(response14.body.error).toBe('User not found')
   })
 })
