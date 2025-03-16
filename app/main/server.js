@@ -38,8 +38,9 @@ mongoose.connect('mongodb+srv://admin:12345abcde@invoicedatabase.owzuo.mongodb.n
     console.log(error)
   })
 
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+// const server = app.listen(PORT, () => {
+// console.log(`Server is running on port ${PORT}`)
+//})
 
-module.exports = { app, server } // for testing
+module.exports = app // for testing
+//module.exports = server
