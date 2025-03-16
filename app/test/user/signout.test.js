@@ -36,7 +36,7 @@ describe('POST /user/signout', () => {
   it('should successfully log out the user', async () => {
     const response = await request(app)
       .post('/user/signout')
-      .set('Cookie', response2.headers['set-cookie'])
+      .set('Cookie', loginResponse.headers['set-cookie'])
       .expect(200)
 
     expect(response.body.message).toBe('Logged out')
@@ -44,10 +44,10 @@ describe('POST /user/signout', () => {
   })
 
   it('should return 401 if no token is provided', async () => {
-    const response = await request(app)
+    const response2 = await request(app)
       .post('/user/signout')
       .expect(401)
 
-    expect(response.body.message).toBe('Unauthorised')
+    expect(response2.body.message).toBe('Unauthorised')
   })
 })
