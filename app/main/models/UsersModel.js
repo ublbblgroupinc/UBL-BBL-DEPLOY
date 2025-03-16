@@ -21,11 +21,6 @@ const UserSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Business',
     required: false
-  }],
-  invoices: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Invoice',
-    required: false
   }]
 },
 {

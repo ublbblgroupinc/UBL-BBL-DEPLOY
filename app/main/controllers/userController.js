@@ -32,8 +32,7 @@ exports.getInfo = async (req, res) => {
     res.status(200).json({
       username: user.username,
       email: user.email,
-      businesses: user.businesses || null,
-      invoices: user.invoices || null
+      businesses: user.businesses || null
     })
   } catch (error) {
     res.status(500).json({ error: error.message })
