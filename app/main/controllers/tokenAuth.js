@@ -4,7 +4,7 @@ exports.tokenAuth = (req, res, next) => {
   const token = req.cookies.token // takes token out of cookie
 
   if (token == null) {
-    return res.status(401).json({ error: 'No token provided' })
+    return res.status(401).json({ message: 'No token provided' })
   }
 
   try {
@@ -13,6 +13,6 @@ exports.tokenAuth = (req, res, next) => {
     next()
   } catch (error) {
     res.clearCookie('token')
-    return res.status(403).json({ error: 'Invalid or expired token provided' })
+    return res.status(403).json({ message: 'Invalid or expired token provided' })
   }
 }
