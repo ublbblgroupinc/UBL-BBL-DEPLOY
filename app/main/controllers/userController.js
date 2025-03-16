@@ -1,4 +1,5 @@
 const userService = require('../services/userService')
+const User = require('../models/UsersModel')
 
 exports.signup = async (req, res) => {
   try {
@@ -24,15 +25,10 @@ exports.login = async (req, res) => {
 //helper function to get user info from token
 const getUserFromToken = async (req, res) => {
   try {
-    const email = req.user.email
-    if (!email) {
-      return res.status(400).json({ error: 'Invalid token, email missing' })
-    }
+    const userId = req.user.userId
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' })
 
-    const user = await userService.getUserInfoVerify(email)
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
+    const user = await User.findById(userId)
 
     return user
   } catch (error) {
@@ -58,10 +54,9 @@ exports.getInfo = async (req, res) => {
 }
 
 exports.putInfo = async (req, res) => {
-  const user = await getUserFromToken(req, res)
-  if (!user) return
+  try {    
+    const user = await User.getUserFromToken(req, res)
 
-  try {
     const userData = { email: user.email, ...req.body }
     const token = await userService.putInfo(userData)
     res.cookie('token', token, {

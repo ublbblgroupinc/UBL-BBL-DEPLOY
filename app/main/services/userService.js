@@ -47,7 +47,8 @@ exports.login = async (userData) => {
   if (!isMatch) throw new Error('Incorrect password')
 
   // Generate token
-  const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+  const token = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+
   return token
 }
 
