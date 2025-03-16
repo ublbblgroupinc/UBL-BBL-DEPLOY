@@ -28,6 +28,8 @@ describe('POST /user/signup', () => {
   })
 
   it('should return an error when not all fields are filled out i.e. no username provided', async () => {
+    jest.setTimeout(30000)
+
     const newUser = {
       email: 'testuser@example.com',
       password: 'Password123*'

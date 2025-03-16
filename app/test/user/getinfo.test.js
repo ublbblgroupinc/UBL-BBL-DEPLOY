@@ -4,7 +4,7 @@ const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
-describe('POST /user/info', () => {
+describe('GET /user/info', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
     server.close()
