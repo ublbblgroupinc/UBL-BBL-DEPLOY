@@ -9,6 +9,7 @@ describe('PUT /user/info', () => {
 
   afterAll(async () => {
     await User.findByIdAndDelete(userId)
+    await User.findByIdAndDelete(userId2)
     await mongoose.connection.close()
     server.close()
   })
@@ -27,6 +28,20 @@ describe('PUT /user/info', () => {
 
     expect(signupResponse.body.message).toBe('Signup successful')
     userId = signupResponse.body.user._id
+
+    const newUser2 = {
+      username: 'testuser2',
+      email: 'testuser2@example.com',
+      password: 'Password123*'
+    }
+
+    const signupResponse2 = await request(app)
+      .post('/user/signup')
+      .send(newUser)
+      .expect(201)
+
+    expect(signupResponse2.body.message).toBe('Signup successful')
+    userId2 = signupResponse2.body.user._id
 
     const loginResponse = await request(app)
       .post('/user/login')
@@ -59,12 +74,10 @@ describe('PUT /user/info', () => {
 
     expect(response3.body.message).toBe('Successfully updated user info')
 
-    await User.create({ username: 'existinguser', email: 'existing@example.com', password: 'Password123*' })
-
     const response4 = await request(app)
       .put('/user/info')
       .set('Cookie', response3.headers['set-cookie'])
-      .send({ newusername: 'existinguser' })
+      .send({ newusername: 'testuser2' })
       .expect(400)
 
     expect(response4.body.error).toBe('Username already exists')

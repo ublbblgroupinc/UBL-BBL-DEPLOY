@@ -52,18 +52,11 @@ exports.login = async (userData) => {
   return token
 }
 
-exports.getUserInfoVerify = async (email) => {
-  const user = await User.findOne({ email })
-  if (!user) throw new Error("User doesn't exist")
-
-  return user
-}
-
 exports.putInfo = async (userData) => {
   let { email, newusername, newemail, newpassword } = userData
 
   // checks if user exists
-  let user = await User.findOne({ email })
+  const user = await User.findOne({ email })
   if (!user) throw new Error('User doesn\'t exist')
 
   if (newusername == null && newemail == null && newpassword == null) throw new Error('No user info changed')
@@ -106,7 +99,6 @@ exports.putInfo = async (userData) => {
     if (!isValidEmail(newemail)) throw new Error('Invalid email')
     // updating uer
     await User.updateOne({ email: user.email }, { $set: { email: newemail } })
-    user = await User.findOne({ email }) // changes user so token can update
   }
 
   const token = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
