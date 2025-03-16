@@ -32,6 +32,12 @@ describe('POST /user/signout', () => {
 
     expect(loginResponse.body.message).toBe('Login successful')
 
+    const response2 = await request(app)
+      .post('/user/signout')
+      .expect(401)
+
+    expect(response2.body.message).toBe('Unauthorised')
+    
     const response = await request(app)
       .post('/user/signout')
       .set('Cookie', loginResponse.headers['set-cookie'])
@@ -40,10 +46,5 @@ describe('POST /user/signout', () => {
     expect(response.body.message).toBe('Logged out')
     expect(response.headers['set-cookie'][0]).toMatch(/token=none/)
 
-    const response2 = await request(app)
-      .post('/user/signout')
-      .expect(401)
-
-    expect(response2.body.message).toBe('Unauthorised')
   })
 })
