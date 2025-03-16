@@ -27,7 +27,7 @@ exports.getInfo = async (req, res) => {
     const userId = req.user.userId
     if (!userId) return res.status(401).json({ message: 'Unauthorized' })
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
 
     res.status(200).json({
       username: user.username,
@@ -45,7 +45,7 @@ exports.putInfo = async (req, res) => {
     const userId = req.user.userId
     if (!userId) return res.status(401).json({ message: 'Unauthorized' })
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
 
     const token = await userService.putInfo(user) // not sure if user is correct here
     res.cookie('token', token, {
