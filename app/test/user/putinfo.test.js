@@ -44,7 +44,7 @@ describe('PUT /user/info', () => {
     expect(signupResponse2.body.message).toBe('Signup successful')
     userId2 = signupResponse2.body.user._id
 
-    const loginResponse = await request(app)
+    const loginResponse = await request.agent(app)
       .post('/user/login')
       .send({ email: newUser.email, password: newUser.password })
       .expect(200)
