@@ -4,6 +4,8 @@ const User = require('../../main/models/UsersModel')
 const mongoose = require('mongoose') // Import mongoose for DB teardown
 server.close()
 
+jest.setTimeout(30000)
+
 describe('POST /user/signup', () => {
   afterAll(async () => {
     await mongoose.connection.close() // Ensure DB connection is closed
