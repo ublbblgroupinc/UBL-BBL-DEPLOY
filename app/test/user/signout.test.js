@@ -5,7 +5,6 @@ const mongoose = require('mongoose')
 server.close()
 
 describe('POST /user/signout', () => {
-  let token
   let userId
 
   afterAll(async () => {
@@ -31,13 +30,13 @@ describe('POST /user/signout', () => {
       .send({ email: newUser.email, password: newUser.password })
       .expect(200)
 
-    token = loginResponse.body.token
+      expect(loginResponse.body.message).toBe('Login successful')
   })
 
   it('should successfully log out the user', async () => {
     const response = await request(app)
       .post('/user/signout')
-      .set('Cookie', `token=${token}`)
+      .set('Cookie', response2.headers['set-cookie'])
       .expect(200)
 
     expect(response.body.message).toBe('Logged out')
