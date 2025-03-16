@@ -10,7 +10,7 @@ describe('POST /user/signout', () => {
     await mongoose.connection.close()
     server.close()
   })
-  
+
   it('should create a new user and login successfully', async () => {
     const newUser = {
       username: 'testuser',
